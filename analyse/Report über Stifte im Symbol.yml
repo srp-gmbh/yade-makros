@@ -1,0 +1,48 @@
+//*******************************************************************************
+//* Copyright 2018 SRP GmbH
+//*
+//* Licensed under the Apache License, Version 2.0 (the "License");
+//* you may not use this file except in compliance with the License.
+//* You may obtain a copy of the License at
+//*
+//*    http://www.apache.org/licenses/LICENSE-2.0
+//*
+//* Unless required by applicable law or agreed to in writing, software
+//* distributed under the License is distributed on an "AS IS" BASIS,
+//* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//* See the License for the specific language governing permissions and
+//* limitations under the License.
+//*******************************************************************************
+
+//   ****************************************************************************
+//   * Ziel:  Anzeige der im Symbol verwendeten Stifte im Report,               *
+//   *        Zuordnung zu den einzelnen Elementen per Geolink                  *
+//   ****************************************************************************
+
+  selinit selmenge;
+
+  klasseneu 'Temp_syx';
+  klasseaktiv 'Temp_syx';
+  set sysPickModus='OF';
+
+  selelemente 'Klicken Sie auf das zu analysierende Symbol','Symbol';
+   if sysselanzahl = 0
+   then
+      Klasseaktiv '_0';
+      Klasselöschen 'Temp_Syx';
+   else
+
+      Duplikat 'Temp_Syx', aus;
+
+      selinit selmenge;
+      select * from geodb where Klassenname='Temp_Syx';
+      symbolauflösen; selinit selmenge;
+      select * from geodb where Klassenname='Temp_Syx';
+
+      SELECT ElemName,Stift, MapElem FROM SelMenge.Geo
+        TO Report('ElemName',20,'Stift',5, 'MapElem (Geolink)',0) ReportName('Symbolstifte');
+
+      löschen va=2;
+      Klasseaktiv '_0';
+      Klasselöschen 'Temp_Syx';
+   endif;

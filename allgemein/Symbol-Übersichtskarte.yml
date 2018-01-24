@@ -1,0 +1,98 @@
+//*******************************************************************************
+//* Copyright 2018 SRP GmbH
+//*
+//* Licensed under the Apache License, Version 2.0 (the "License");
+//* you may not use this file except in compliance with the License.
+//* You may obtain a copy of the License at
+//*
+//*    http://www.apache.org/licenses/LICENSE-2.0
+//*
+//* Unless required by applicable law or agreed to in writing, software
+//* distributed under the License is distributed on an "AS IS" BASIS,
+//* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//* See the License for the specific language governing permissions and
+//* limitations under the License.
+//*******************************************************************************/
+
+
+//   ****************************************************************************
+//   * Ziel:  Präsentation aller Symbole einer Symbolbibliothek in              *
+//   *        einer leeren YADE-Karte                                           *
+//   ****************************************************************************
+
+
+
+
+
+neu still;
+zoomlimits ;
+zoommaßstab 1000;
+klasseneu Temp_sy; update klassen set Gruppe =255 where Klassenname ='Temp_sy';
+set sysFG = ein;
+set sysfax1 =393400;
+set sysfay1 =5817500;
+
+
+
+defbefehl InsSymNames, ''
+  defvar xTitelHöhe num = 40.0;
+  defvar xSYHöhe num = 60.0;
+
+  defvar xx : char;
+  defvar i : int = 1;
+  defvar x : int = 1;
+  defvar y : int = 1;
+  defvar xAnzZeile : int=10;
+  defvar schluss int;
+  defvar xlibname char;
+
+ Pause 'Wählen Sie zunächst die Symbolbibliothek aus';
+
+  set xlibname = opendialog('Symbolbibliothek','*.sym');
+  if xlibname = '' then EXIT; endif;
+
+  Eingabe xAnzZeile, ('Anzahl der Symbole in einer Zeile ?'), ein;
+  while xanzZeile = 0 do
+    Eingabe xAnzZeile, ('Anzahl der Symbole in einer Zeile ?'), ein;
+  endwhile;
+  if xAnzZeile = 0 then EXIT; endif;
+
+  schriftarten 0, 'ARIAL', 'fett';
+
+  symbolbibliothek xLibName;
+  set xx = Getsymbolname(xLibName,i);
+  insert into
+    GeoDB  (Elemtyp, aufschrift, ElemEinfX, ElemEinfY, höhe)
+    values (text,    xlibname,    sysfax1,   sysfay1+(xSYHöhe*1.5),   xTitelHöhe  );
+  zeichnemenge;
+  selinit selmenge;
+  While xx <> '' do
+    insert into      { Symbol }
+        GeoDB  (ElemTyp,ElemEinfX,ElemEinfY,Aufschrift,KlassName,Stift,Strichart,Höhe,Winkel)
+        values (symbol, sysfax1 + (x-1)*(xSYHöhe*2.0),sysfay1-(y-1)*(xSYHöhe*2.0),xx,'NULL',4,1, xSYHöhe,0);
+    ZeichneMenge;
+    insert into      { Symbolname }
+        GeoDB  (ElemTyp,ElemEinfX,ElemEinfY,Aufschrift,KlassName,Stift,Strichart,Höhe,Winkel,Ausrichtung)
+        values (text, sysfax1 + (x-1)*(xSYHöhe*2.0),sysfay1-(xSYHöhe*2.0)-(y-1.1)*(xSYHöhe*2.0)+(xSYHöhe-5),xx,'NULL',4,1,(xSYHöhe/4),0,'MitteUnten');
+    ZeichneMenge;
+    Inc(x);
+    if x > xAnzZeile then
+      set x = 1; Inc(y);
+    endif;
+    inc(i);
+    set xx = Getsymbolname(xLibName,i);
+  EndWhile;
+  set schluss = x;
+  select * from geoDB where elemTyp=symbol;
+  writeln sysselanzahl , '  Symbole eingefügt';
+  zoomalles;
+  SelInit Selmenge;
+endbefehl;
+
+
+InsSymNames;
+
+
+
+
+

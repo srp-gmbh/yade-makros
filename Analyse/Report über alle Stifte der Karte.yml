@@ -23,5 +23,5 @@
 
   Stifttabelle;
   SELECT Stift FROM Geodb GROUP BY Stift TO Report
-  ('Stift',5) ReportName('Alle in der Karte verwendeten Stifte (ohne Symboldarstellungsstifte)');
+  ('Stift', 5) ReportName('Alle in der Karte verwendeten Stifte (ohne Symboldarstellungsstifte)');
   selinit Selmenge;

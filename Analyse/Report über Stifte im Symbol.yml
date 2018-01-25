@@ -14,10 +14,9 @@
 //* limitations under the License.
 //*******************************************************************************
 
-//   ****************************************************************************
-//   * Ziel:  Anzeige der im Symbol verwendeten Stifte im Report,               *
-//   *        Zuordnung zu den einzelnen Elementen per Geolink                  *
-//   ****************************************************************************
+//   Ziel:  Anzeige der im Symbol verwendeten Stifte im Report,
+//          Zuordnung zu den einzelnen Elementen per Geolink
+
 
   selinit selmenge;
 
@@ -25,7 +24,7 @@
   klasseaktiv 'Temp_syx';
   set sysPickModus='OF';
 
-  selelemente 'Klicken Sie auf das zu analysierende Symbol','Symbol';
+  selelemente 'Klicken Sie auf das zu analysierende Symbol', 'Symbol';
    if sysselanzahl = 0
    then
       Klasseaktiv '_0';
@@ -35,14 +34,14 @@
       Duplikat 'Temp_Syx', aus;
 
       selinit selmenge;
-      select * from geodb where Klassenname='Temp_Syx';
+      select * from geodb where Klassenname = 'Temp_Syx';
       symbolauflösen; selinit selmenge;
-      select * from geodb where Klassenname='Temp_Syx';
+      select * from geodb where Klassenname = 'Temp_Syx';
 
-      SELECT ElemName,Stift, MapElem FROM SelMenge.Geo
-        TO Report('ElemName',20,'Stift',5, 'MapElem (Geolink)',0) ReportName('Symbolstifte');
+      SELECT ElemName, Stift, MapElem FROM SelMenge.Geo
+        TO Report('ElemName', 20, 'Stift', 5, 'MapElem (Geolink)', 0) ReportName('Symbolstifte');
 
-      löschen va=2;
+      löschen va = 2;
       Klasseaktiv '_0';
       Klasselöschen 'Temp_Syx';
    endif;

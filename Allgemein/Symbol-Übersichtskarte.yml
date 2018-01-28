@@ -53,7 +53,7 @@ defbefehl InsSymNames, ''
   // 1. Symbolbibliothek auswählen
   Pause 'Bitte wählen Sie zunächst die Symbolbibliothek aus!';
 
-  set xlibname = openDialog('Symbolbibliothek', '*.sym');
+  set xlibname = fileOpenDlg('Symbolbibliothek', '*.sym');
   if xlibname = '' then EXIT; endif;
 
   // 2. Anzahl der Zeilenelemente angeben

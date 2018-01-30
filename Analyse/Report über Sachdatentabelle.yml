@@ -16,11 +16,11 @@
 
 
 
-//   Der Inhalt einer Datenbanktabelle werden in einem Report dargestellt.
+//   Der Inhalt einer Datenbanktabelle wird in einem Report dargestellt.
 
 
 //   Bitte tragen Sie in der folgenden Zeile Pfad und Tabellenname (*.db, *.dbf) ein:
 
-  select * from 'Laufwerk:\Pfad\Dateiname.db' to report;
+select * from 'Laufwerk:\Pfad\Dateiname.db' to report;
 
 

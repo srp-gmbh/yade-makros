@@ -14,35 +14,43 @@
 //* limitations under the License.
 //*******************************************************************************
 
-//   Ziel:  Anzeige der im Symbol verwendeten Stifte im Report,
-//          Zuordnung zu den einzelnen Elementen per Geolink
+//  Ziel: Anzeige der im Symbol verwendeten Stifte im Report,
+//        Zuordnung zu den einzelnen Elementen per Geolink
 
   defVar KLASSE_TEMP : char = 'Temp_syx';
 
   selInit selMenge;
 
-  klasseneu KLASSE_TEMP;
-  klasseaktiv KLASSE_TEMP;
-  set sysPickModus='OF';
+  klasseNeu KLASSE_TEMP;
+  klasseAktiv KLASSE_TEMP;
 
-  selelemente 'Klicken Sie auf das zu analysierende Symbol', 'Symbol';
-   if sysselanzahl = 0
-   then
-      Klasseaktiv '_0';
-      Klasselöschen KLASSE_TEMP;
-   else
+  set sysPickModus = 'OF';
 
-      Duplikat KLASSE_TEMP, aus;
+  selElemente 'Klicken Sie auf das zu analysierende Symbol', 'Symbol';
 
-      selinit selmenge;
-      select * from geodb where Klassenname = KLASSE_TEMP;
-      symbolauflösen; selinit selmenge;
-      select * from geodb where Klassenname = KLASSE_TEMP;
+  if sysSelAnzahl = 0 then
 
-      SELECT ElemName, Stift, MapElem FROM SelMenge.Geo
-        TO Report('ElemName', 20, 'Stift', 5, 'MapElem (Geolink)', 0) ReportName('Symbolstifte');
+    klasseAktiv '_0';
+    klasseLöschen KLASSE_TEMP;
 
-      löschen va = 2;
-      Klasseaktiv '_0';
-      Klasselöschen KLASSE_TEMP;
-   endif;
+  else
+
+    duplikat KLASSE_TEMP, aus;
+
+    selInit selMenge;
+
+    SELECT * FROM geodb WHERE KlassenName = KLASSE_TEMP;
+
+    symbolAuflösen;
+    selInit selMenge;
+
+    SELECT * FROM geodb WHERE KlassenName = KLASSE_TEMP;
+
+    SELECT ElemName, Stift, MapElem FROM SelMenge.Geo
+      TO Report('ElemName', 20, 'Stift', 5, 'MapElem (Geolink)', 0) ReportName('Symbolstifte');
+
+    löschen va = 2;
+    klasseAktiv '_0';
+    klasseLöschen KLASSE_TEMP;
+
+  endIf;

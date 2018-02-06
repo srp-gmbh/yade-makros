@@ -17,31 +17,32 @@
 //   Ziel:  Anzeige der im Symbol verwendeten Stifte im Report,
 //          Zuordnung zu den einzelnen Elementen per Geolink
 
+  defVar KLASSE_TEMP : char = 'Temp_syx';
 
-  selinit selmenge;
+  selInit selMenge;
 
-  klasseneu 'Temp_syx';
-  klasseaktiv 'Temp_syx';
+  klasseneu KLASSE_TEMP;
+  klasseaktiv KLASSE_TEMP;
   set sysPickModus='OF';
 
   selelemente 'Klicken Sie auf das zu analysierende Symbol', 'Symbol';
    if sysselanzahl = 0
    then
       Klasseaktiv '_0';
-      Klasselöschen 'Temp_Syx';
+      Klasselöschen KLASSE_TEMP;
    else
 
-      Duplikat 'Temp_Syx', aus;
+      Duplikat KLASSE_TEMP, aus;
 
       selinit selmenge;
-      select * from geodb where Klassenname = 'Temp_Syx';
+      select * from geodb where Klassenname = KLASSE_TEMP;
       symbolauflösen; selinit selmenge;
-      select * from geodb where Klassenname = 'Temp_Syx';
+      select * from geodb where Klassenname = KLASSE_TEMP;
 
       SELECT ElemName, Stift, MapElem FROM SelMenge.Geo
         TO Report('ElemName', 20, 'Stift', 5, 'MapElem (Geolink)', 0) ReportName('Symbolstifte');
 
       löschen va = 2;
       Klasseaktiv '_0';
-      Klasselöschen 'Temp_Syx';
+      Klasselöschen KLASSE_TEMP;
    endif;

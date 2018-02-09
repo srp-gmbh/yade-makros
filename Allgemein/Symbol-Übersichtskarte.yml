@@ -53,7 +53,10 @@
     Pause 'Bitte wählen Sie zunächst die Symbolbibliothek aus!';
 
     set xlibname = fileOpenDlg('Symbolbibliothek', '*.sym');
-    if xlibname = '' then EXIT; endif;
+
+    if xlibname = '' then
+      EXIT;
+    endif;
 
     // 2. Anzahl der Zeilenelemente angeben
     defvar eingabeLeer : bool = ein;
@@ -65,7 +68,9 @@
 
     endWhile;
 
-    if eingabeLeer then EXIT; endif;
+    if eingabeLeer then
+      EXIT;
+    endif;
 
     schriftarten 0, 'ARIAL', 'fett';
 
@@ -117,7 +122,7 @@
     endWhile;
 
     select * from geoDB where elemTyp = symbol;
-    writeln 'Es wurden ', sysSelAnzahl, ' Symbole eingefügt.';
+    writeLn 'Es wurden ', sysSelAnzahl, ' Symbole eingefügt.';
     zoomAlles;
     SelInit Selmenge;
 

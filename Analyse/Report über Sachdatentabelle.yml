@@ -21,6 +21,6 @@
 
 //   Bitte tragen Sie in der folgenden Zeile Pfad und Tabellenname (*.db, *.dbf) ein:
 
-select * from 'Laufwerk:\Pfad\Dateiname.db' to report;
+  select * from 'Laufwerk:\Pfad\Dateiname.db' to report;
 
 

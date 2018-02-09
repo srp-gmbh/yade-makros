@@ -19,109 +19,109 @@
 
 
 
-// neue Karte
-neu still;
+  // neue Karte
+  neu still;
 
-defvar TBL_TEMP_SYM : char = 'Temp_sy';
+  defvar TBL_TEMP_SYM : char = 'Temp_sy';
 
-klasseNeu TBL_TEMP_SYM;
-update klassen set Gruppe = 255 where Klassenname = TBL_TEMP_SYM;
+  klasseNeu TBL_TEMP_SYM;
+  update klassen set Gruppe = 255 where Klassenname = TBL_TEMP_SYM;
 
-set sysFG = ein;
-set sysfax1 = 393400;
-set sysfay1 = 5817500;
+  set sysFG = ein;
+  set sysfax1 = 393400;
+  set sysfay1 = 5817500;
 
 
 
-defbefehl InsSymNames, ''
+  defbefehl InsSymNames, ''
 
-  defvar xTitelHöhe num = 40.0;
-  defvar xSYHöhe num = 60.0;
+    defvar xTitelHöhe num = 40.0;
+    defvar xSYHöhe num = 60.0;
 
-  defvar symbolName : char;
-  defvar i : int = 1;
-  defvar x : int = 1;
-  defvar y : int = 1;
-  defvar xAnzZeile : int = 10;
-  // Abstandsfaktor
-  defvar abstand : num = 2.0;
-  defvar xlibname char;
-  defvar posX num;
-  defvar posY num;
+    defvar symbolName : char;
+    defvar i : int = 1;
+    defvar x : int = 1;
+    defvar y : int = 1;
+    defvar xAnzZeile : int = 10;
+    // Abstandsfaktor
+    defvar abstand : num = 2.0;
+    defvar xlibname char;
+    defvar posX num;
+    defvar posY num;
 
-  // 1. Symbolbibliothek auswählen
-  Pause 'Bitte wählen Sie zunächst die Symbolbibliothek aus!';
+    // 1. Symbolbibliothek auswählen
+    Pause 'Bitte wählen Sie zunächst die Symbolbibliothek aus!';
 
-  set xlibname = fileOpenDlg('Symbolbibliothek', '*.sym');
-  if xlibname = '' then EXIT; endif;
+    set xlibname = fileOpenDlg('Symbolbibliothek', '*.sym');
+    if xlibname = '' then EXIT; endif;
 
-  // 2. Anzahl der Zeilenelemente angeben
-  defvar eingabeLeer : bool = ein;
+    // 2. Anzahl der Zeilenelemente angeben
+    defvar eingabeLeer : bool = ein;
 
-  while eingabeLeer do
+    while eingabeLeer do
 
-    Eingabe xAnzZeile, ('Bitte geben Sie die Anzahl der Symbole einer Zeile an!'), ein;
-    set eingabeLeer = (xanzZeile < 1);
+      Eingabe xAnzZeile, ('Bitte geben Sie die Anzahl der Symbole einer Zeile an!'), ein;
+      set eingabeLeer = (xanzZeile < 1);
 
-  endWhile;
+    endWhile;
 
-  if eingabeLeer then EXIT; endif;
+    if eingabeLeer then EXIT; endif;
 
-  schriftarten 0, 'ARIAL', 'fett';
+    schriftarten 0, 'ARIAL', 'fett';
 
-  // 3. Symbolbibliothek laden
-  symbolBibliothek xLibName;
+    // 3. Symbolbibliothek laden
+    symbolBibliothek xLibName;
 
-  insert into
-    GeoDB  (Elemtyp, aufschrift, ElemEinfX, ElemEinfY                , höhe      )
-    values (text   , xlibname  , sysfax1  , sysfay1 + (xSYHöhe * 1.5), xTitelHöhe);
-
-  zeichneMenge;
-  selinit selMenge;
-
-  set symbolName = getSymbolName(xLibName, i);
-
-  // 4. Symbole in Karte einfügen
-  while symbolName <> '' do
-
-    writeLn symbolName;
-
-    // Einfügepositionen berechnen
-    set posX = sysfax1 + (x - 1) * (xSYHöhe * abstand);
-    set posY = sysfay1 - (y - 1) * (xSYHöhe * abstand);
-
-    insert into { Symbol }
-        GeoDB  (ElemTyp, ElemEinfX, ElemEinfY, Aufschrift, KlassName, Stift, Strichart, Höhe    , Winkel)
-        values (symbol , posX     , posY     , symbolName, 'NULL'   , 4    , 1        , xSYHöhe , 0     );
+    insert into
+      GeoDB  (Elemtyp, aufschrift, ElemEinfX, ElemEinfY                , höhe      )
+      values (text   , xlibname  , sysfax1  , sysfay1 + (xSYHöhe * 1.5), xTitelHöhe);
 
     zeichneMenge;
+    selinit selMenge;
 
-    set posY = sysfay1 - (xSYHöhe * abstand) - (y - 1.1) * (xSYHöhe * abstand) + (xSYHöhe - 5);
-
-    insert into { Symbolname }
-        GeoDB  (ElemTyp, ElemEinfX, ElemEinfY, Aufschrift, KlassName, Stift, Strichart, Höhe        , Winkel, Ausrichtung )
-        values (text   , posX     , posY     , symbolName, 'NULL'   , 4    , 1        , xSYHöhe / 4 , 0     , 'MitteUnten');
-
-    zeichneMenge;
-
-    inc(x);
-
-    if x > xAnzZeile then
-      set x = 1;
-      inc(y);
-    endif;
-
-    inc(i);
     set symbolName = getSymbolName(xLibName, i);
 
-  endWhile;
+    // 4. Symbole in Karte einfügen
+    while symbolName <> '' do
 
-  select * from geoDB where elemTyp = symbol;
-  writeln 'Es wurden ', sysSelAnzahl, ' Symbole eingefügt.';
-  zoomAlles;
-  SelInit Selmenge;
+      writeLn symbolName;
 
-endbefehl;
+      // Einfügepositionen berechnen
+      set posX = sysfax1 + (x - 1) * (xSYHöhe * abstand);
+      set posY = sysfay1 - (y - 1) * (xSYHöhe * abstand);
+
+      insert into { Symbol }
+          GeoDB  (ElemTyp, ElemEinfX, ElemEinfY, Aufschrift, KlassName, Stift, Strichart, Höhe    , Winkel)
+          values (symbol , posX     , posY     , symbolName, 'NULL'   , 4    , 1        , xSYHöhe , 0     );
+
+      zeichneMenge;
+
+      set posY = sysfay1 - (xSYHöhe * abstand) - (y - 1.1) * (xSYHöhe * abstand) + (xSYHöhe - 5);
+
+      insert into { Symbolname }
+          GeoDB  (ElemTyp, ElemEinfX, ElemEinfY, Aufschrift, KlassName, Stift, Strichart, Höhe        , Winkel, Ausrichtung )
+          values (text   , posX     , posY     , symbolName, 'NULL'   , 4    , 1        , xSYHöhe / 4 , 0     , 'MitteUnten');
+
+      zeichneMenge;
+
+      inc(x);
+
+      if x > xAnzZeile then
+        set x = 1;
+        inc(y);
+      endif;
+
+      inc(i);
+      set symbolName = getSymbolName(xLibName, i);
+
+    endWhile;
+
+    select * from geoDB where elemTyp = symbol;
+    writeln 'Es wurden ', sysSelAnzahl, ' Symbole eingefügt.';
+    zoomAlles;
+    SelInit Selmenge;
+
+  endbefehl;
 
 
-InsSymNames;
+  InsSymNames;

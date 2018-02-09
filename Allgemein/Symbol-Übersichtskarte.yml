@@ -33,7 +33,7 @@
 
 
 
-  defbefehl InsSymNames, ''
+  defbefehl InsSymNames, 'Fügt der Karte alle Symbole einer Symbolbibliothek hinzu.'
 
     defvar xTitelHöhe num = 40.0;
     defvar xSYHöhe num = 60.0;

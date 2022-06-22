@@ -1,0 +1,31 @@
+{*******************************************************************************
+ * Copyright 2022 SRP GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************}
+
+//   Ziel:  Transparenz der Stifte setzen
+
+  Update Stifte set alpha = 50;         // alle Stifte in der Tabelle
+
+  Update Stifte set alpha = 50
+    where stift = 140;                  // nur Stift 140
+
+  Update Stifte set alpha = 50
+    where stift = 140 or Stift = 200;   // Stift 140 und Stift 200
+
+  Update Stifte set alpha = 50
+    where stift between  140 and  200;  // von Stift 140 bis Stift 200
+
+  Update Stifte set alpha = 50
+    where  Stift < 4 ;                  // Stifte kleiner Stift 4
